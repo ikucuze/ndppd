@@ -96,6 +96,15 @@
 
    Note that this version of the binary is much bigger, and the daemon
    produces a lot of messages.
+   
+   If you want to cross compile from an x86/AMD64 system to MIPS, you
+   should install a crosscompiler, ie for Debian 9:
+
+      apt-get install -y g++-mipsel-linux-gnu make
+   
+   and then compile with option:
+
+      make CROSSCOMPILE=1 all
 
 ------------------------------------------------------------------------
 5. Usage
