@@ -4,8 +4,16 @@ else
 CXXFLAGS ?= -O3
 endif
 
+ifdef CROSSCOMPILE
+PREFIX  ?= /ndppd/local
+CXX     = /usr/bin/mipsel-linux-gnu-g++
+STATICFLAG = -static
+else
 PREFIX  ?= /usr/local
-CXX     ?= g++
+CXX     = g++
+STATICFLAG =
+endif
+
 GZIP    ?= /bin/gzip
 MANDIR  ?= ${DESTDIR}${PREFIX}/share/man
 SBINDIR ?= ${DESTDIR}${PREFIX}/sbin
@@ -37,13 +45,13 @@ ndppd.conf.5.gz:
 	${GZIP} < ndppd.conf.5 > ndppd.conf.5.gz
 
 ndppd: ${OBJS}
-	${CXX} -o ndppd ${LDFLAGS} ${OBJS} ${LIBS}
+	${CXX} -o ndppd ${STATICFLAG} ${LDFLAGS} ${OBJS} ${LIBS}
 
 nd-proxy: nd-proxy.c
 	${CXX} -o nd-proxy -Wall -Werror ${LDFLAGS} `${PKG_CONFIG} --cflags glib-2.0` nd-proxy.c `${PKG_CONFIG} --libs glib-2.0`
 
 .cc.o:
-	${CXX} -c ${CPPFLAGS} $(CXXFLAGS) -o $@ $<
+	${CXX} -c ${CPPFLAGS} $(CXXFLAGS) ${STATICFLAG} -o $@ $<
 
 clean:
 	rm -f ndppd ndppd.conf.5.gz ndppd.1.gz ${OBJS} nd-proxy
