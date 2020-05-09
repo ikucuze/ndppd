@@ -1,5 +1,4 @@
 ndppd.conf
-ndppd
 *.o
 ndppd.conf.5.gz
 ndppd.1.gz
